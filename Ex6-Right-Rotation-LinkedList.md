@@ -1,34 +1,18 @@
 # Ex6 Right Rotation LinkedList
-## DATE:11-11-2025
+## DATE:21-08-2025
 ## AIM:
 To write a Java  program to:
 Create a singly linked list.
 Rotate the linked list to the right by k positions.
 Display the rotated linked list.
 ## Algorithm
-1. Start the program.
-2. Define a Node class consisting of data and a reference next.
-3. Create a LinkedList class with methods to:
-4. Insert nodes at the end.
-5. Rotate the list to the right by k positions.
-6. Display the list.
-7. Read the number of nodes and insert them into the linked list.
-8. Read the value of k (number of rotations).
-To rotate:
+1. Read n values to build the linked list and read k.
+2. Find the length of the list and reach the last node.
+3. Make the list circular by connecting last node to head.
+4. Move length − (k % length) steps to find new tail.
+5. Break the circle and print the list from the new head.
+   
 
-Count the total number of nodes (len).
-
-Make the list circular by connecting the last node to the head.
-
-Compute k = k % len to avoid unnecessary rotations.
-
-Traverse to the (len - k - 1)th node and set the new head.
-
-Break the circular connection.
-
-9. Display the rotated list.
-10. Stop the program.
-  
 ## Program:
 ```
 /*
@@ -36,105 +20,87 @@ Program to  Right Rotation LinkedList
 Developed by: Mugil Murugan
 RegisterNumber: 212223230127
 
-*/
 import java.util.Scanner;
 
 class Node {
     int data;
     Node next;
-
     Node(int data) {
         this.data = data;
         this.next = null;
     }
 }
 
-class LinkedList {
-    Node head;
-
-    // Insert node at end
-    public void insert(int data) {
-        Node newNode = new Node(data);
-
-        if (head == null) {
-            head = newNode;
-        } else {
-            Node temp = head;
-            while (temp.next != null)
-                temp = temp.next;
-            temp.next = newNode;
-        }
-    }
-
-    // Right rotate linked list by k positions
-    public void rightRotate(int k) {
-        if (head == null || k == 0)
-            return;
+class prog {
+    public static Node rotateRight(Node head, int k) {
+        if (head == null || head.next == null || k == 0)
+            return head;
 
         Node temp = head;
-        int len = 1;
-
+        int length = 1;
         while (temp.next != null) {
             temp = temp.next;
-            len++;
+            length++;
         }
 
-        // Make circular
         temp.next = head;
 
-        k = k % len;  // Effective rotation
-        int stepsToNewHead = len - k;
-
-        Node newTail = temp;
-        while (stepsToNewHead-- > 0) {
+        int stepsToNewHead = length - k % length;
+        Node newTail = head;
+        for (int i = 1; i < stepsToNewHead; i++) {
             newTail = newTail.next;
         }
 
-        head = newTail.next;
+        Node newHead = newTail.next;
+
         newTail.next = null;
+
+        return newHead;
     }
 
-    // Display list
-    public void display() {
+    public static void printList(Node head) {
         Node temp = head;
         while (temp != null) {
             System.out.print(temp.data + " ");
             temp = temp.next;
         }
-        System.out.println();
     }
-}
 
-public class RightRotationLinkedList {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        LinkedList list = new LinkedList();
 
-        System.out.print("Enter number of nodes: ");
         int n = sc.nextInt();
 
-        System.out.println("Enter " + n + " elements:");
-        for (int i = 0; i < n; i++) {
-            list.insert(sc.nextInt());
+        if (n <= 0) {
+            sc.close();
+            return;
         }
 
-        System.out.print("Enter k (positions to rotate): ");
+        Node head = new Node(sc.nextInt());
+        Node tail = head;
+        for (int i = 1; i < n; i++) {
+            tail.next = new Node(sc.nextInt());
+            tail = tail.next;
+        }
+
         int k = sc.nextInt();
 
-        list.rightRotate(k);
+        head = rotateRight(head, k);
 
-        System.out.println("Rotated Linked List:");
-        list.display();
+        System.out.print("LinkedList: ");
+        printList(head);
 
         sc.close();
     }
 }
+ 
+*/
 ```
 
 ## Output:
 
-<img width="571" height="232" alt="image" src="https://github.com/user-attachments/assets/8072a993-dd5b-4420-ab99-e785cae1316a" />
+<img width="882" height="256" alt="image" src="https://github.com/user-attachments/assets/6cc3aaf3-9af8-4331-a8fb-dc3d80997ee9" />
 
 
 ## Result:
-Thus, the java program to perfom right rotation on linked list is implemented successfully.
+Thus, the C program to perfom right rotation on linked list is implemented successfully.
